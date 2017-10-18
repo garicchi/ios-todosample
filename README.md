@@ -157,6 +157,10 @@ class SaveData{
     static func at(index:Int) -> Task{
         return todo.tasks[index]
     }
+    
+    static func size() -> Int{
+        return todo.tasks.count
+    }
 }
 
 // TODOデータの定義
@@ -171,5 +175,6 @@ struct Task:Codable{
     var detail:String
     var deadline:Date
 }
+
 
 ```

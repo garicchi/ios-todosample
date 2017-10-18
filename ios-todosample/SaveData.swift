@@ -63,6 +63,10 @@ class SaveData{
     static func at(index:Int) -> Task{
         return todo.tasks[index]
     }
+    
+    static func size() -> Int{
+        return todo.tasks.count
+    }
 }
 
 // TODOデータの定義
