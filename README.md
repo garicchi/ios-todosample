@@ -32,6 +32,12 @@ Table View Cellにlabelを配置してStackViewなどで調整する。
 
 ![2](./img/2.png)
 
+### AUTO LAYOUTで比率配置する
+
+比率配置するにはルート要素と比率配置したいものを同時に選択して右下のConstrainsから[Equal Widths]にチェックを入れる。その後ConstrainsのMultiplierプロパティに比率を入れる
+
+![5](./img/5.png)
+
 配置したTable View Cellを選択して右側のAttribute Inspectorから[Identifier]の項目に[TaskCell]という名前を入力する。この識別子は後でコードから参照するために設定する。
 
 ![4](./img/4.png)
@@ -95,6 +101,27 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
 ```
 
 この時点ではtableView関数などからエラーがでてビルドできないが気にしない。
+
+TableViewCellのコードビハインドとしてTaskCellTableViewCell.swiftというファイルを作成する。
+
+Main.storyboardからTaskCellをクリックして右側のIdentify InspectorからCustom Class項目のClass項目に[TaskCellTableViewCell]を指定する。
+
+2画面表示でTable View Cellに配置したtitleとdetailとdeadlineのラベルをctrlを押しながらTaskCellTableViewCellクラスにドラッグ・アンド・ドロップしてIBOutletを3つ紐付ける。
+
+さらにTaskCellTableViewCellクラスにsetCellという関数を追加する。中身はこんな感じ
+
+```swift
+func setCell(task:Task){
+    self.labelTitle.text = task.title
+    self.labelDetail.text = task.detail
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+    self.labelDeadline.text = formatter.string(from:
+task.deadline)
+}
+```
+
+
 
 ## データを管理するクラスを作る
 iosアプリケーションでデータを管理するにはlocal databaseのCore DataやRealmなどがあるがcore dataはxcodeのバージョンによって使い方が変わったりめんどくさいのでjsonで保存することにする。
@@ -187,3 +214,63 @@ struct Task:Codable{
 
 
 ViewController.swiftを開く。
+
+すでに作成していたtableView関数の中身を以下のようにする
+didSelectRowAtを引数にとるtableView関数は空で良い。
+
+```swift
+// TableViewに表示するデータの個数を返す
+func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return SaveData.size()
+}
+// TableViewのindexPath番目に表示する内容を返す
+func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let cell = todoTableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath) as!
+TaskCellTableViewCell
+    let task = SaveData.at(index: indexPath.item)
+    cell.setCell(task: task)
+    return cell
+}
+```
+
+この時点でTodoを表示できるようになっているはず
+
+![6](./img/6.png)
+
+## TODO新規作成画面を作る
+
+Main.storyboardを開いて右下のObjectLibraryからView Controllerを画面にドラッグ・アンド・ドロップして新規画面を作る
+
+先程のTodoを表示しているView Controllerの[+]ボタンからCtrlを押しながらドラッグアンドドロップして新規作成したView ControllerへSegueをつなげる。
+
+Segue(ViewController間を紐付けている線)を選択して右上からStoryboard SegueのIdentifierに[segueNewTask]という名前を設定する。
+
+
+![7](./img/7.png)
+
+新しくNewTaskViewController.swiftというクラスを作成してUIViewControllerを継承させる。
+Storyboardで新しく作成したView ControllerのCustom ClassをNewTaskViewControllerにする。
+
+新規作成画面を設計する。必要なlabelとtextField、DatePickerを追加する。上にはNavbarItem、右上にはSaveボタンを付ける。
+2つのtextFieldと1つのDatePickerはIBOutletとしてNewTaskViewController.swiftに紐付ける。またSaveボタンのIBActionも紐付ける。
+
+![8](./img/8.png)
+
+NewTaskViewControllerのsaveボタンを押したときのIBAction関数を以下のようにする。
+
+```swift
+@IBAction func onSave(_ sender: Any) {
+    let id = UUID().uuidString
+    let title = textTitle.text!
+    let detail = textDetail.text!
+    let deadline = dateDeadline.date
+    let task = Task(id: id, title: title, detail: detail, deadline: deadline)
+    SaveData.load()
+    SaveData.add(task: task)
+    SaveData.save()
+    navigationController?.popViewController(animated: true)
+}
+```
+
+アプリを実行してタスクを追加できることを確認する
+

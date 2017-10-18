@@ -17,7 +17,10 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
     
     // TableViewのindexPath番目に表示する内容を返す
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+        let cell = todoTableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath) as! TaskCellTableViewCell
+        let task = SaveData.at(index: indexPath.item)
+        cell.setCell(task: task)
+        return cell
     }
     
     // TableViewのindexPath番目が選択されたとき
@@ -35,9 +38,18 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
-        todoTableView.dataSource = self
-        todoTableView.delegate = self
+        self.todoTableView.dataSource = self
+        self.todoTableView.delegate = self
+        //self.todoTableView.rowHeight = UITableViewAutomaticDimension
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        SaveData.load()
+        self.todoTableView.reloadData()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        SaveData.save()
     }
 
     override func didReceiveMemoryWarning() {
