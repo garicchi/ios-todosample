@@ -1,5 +1,7 @@
 # ios TODO SAMPLE
 
+![10](./img/10.png)
+
 ## 環境
 
 |name|varsion|
@@ -339,3 +341,10 @@ indexPath: IndexPath) {
 ```
 
 これでTableViewをスワイプすれば削除できる。
+
+
+## テストデータを削除する
+
+テスト用にload関数で入れていたデータをコメントアウトで削除する。
+
+![9](./img/9.png)

@@ -26,11 +26,13 @@ class SaveData{
             let _todo = try JSONDecoder().decode(Todo.self, from: Data(contentsOf: saveUrl))
             self.todo = _todo
         }catch{
+            /*
             self.todo = Todo()
             let task1 = Task(id: UUID().uuidString, title: "テストタスク1", detail: "テスト1", deadline: Date())
             let task2 = Task(id: UUID().uuidString, title: "テストタスク2", detail: "テスト2", deadline: Date())
             self.todo.tasks.append(task1)
             self.todo.tasks.append(task2)
+             */
         }
     }
     
