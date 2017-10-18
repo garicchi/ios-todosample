@@ -131,6 +131,14 @@ XCodeで[SaveData.swift]というファイルを作る。
 中身はこんな感じ
 
 ```swift
+//
+//  SaveData.swift
+//  ios-todosample
+//
+//  Created by garicchi on 2017/10/18.
+//  Copyright © 2017年 ryotatogai. All rights reserved.
+//
+
 import Foundation
 
 class SaveData{
@@ -183,6 +191,17 @@ class SaveData{
             counter += 1
         }
         return todo.tasks[counter]
+    }
+    
+    static func update(task:Task){
+        var counter:Int = 0
+        for e in todo.tasks {
+            if task.id == e.id {
+                break
+            }
+            counter += 1
+        }
+        todo.tasks[counter] = task
     }
     
     static func at(index:Int) -> Task{
@@ -241,7 +260,7 @@ TaskCellTableViewCell
 
 Main.storyboardを開いて右下のObjectLibraryからView Controllerを画面にドラッグ・アンド・ドロップして新規画面を作る
 
-先程のTodoを表示しているView Controllerの[+]ボタンからCtrlを押しながらドラッグアンドドロップして新規作成したView ControllerへSegueをつなげる。
+先程のTodoを表示しているView Controllerの上にある黄色いマークからCtrlを押しながらドラッグアンドドロップして新規作成したView ControllerへSegueをつなげる。
 
 Segue(ViewController間を紐付けている線)を選択して右上からStoryboard SegueのIdentifierに[segueNewTask]という名前を設定する。
 
@@ -255,6 +274,14 @@ Storyboardで新しく作成したView ControllerのCustom ClassをNewTaskViewCo
 2つのtextFieldと1つのDatePickerはIBOutletとしてNewTaskViewController.swiftに紐付ける。またSaveボタンのIBActionも紐付ける。
 
 ![8](./img/8.png)
+
+ViewControllerに紐付いている[+]ボタンのIBActionのfuncは以下のようにする
+
+```swift
+@IBAction func onAddTask(_ sender: Any) {
+    performSegue(withIdentifier: "segueNewTask", sender: sender)
+}
+```
 
 NewTaskViewControllerのsaveボタンを押したときのIBAction関数を以下のようにする。
 
@@ -274,3 +301,41 @@ NewTaskViewControllerのsaveボタンを押したときのIBAction関数を以�
 
 アプリを実行してタスクを追加できることを確認する
 
+## TASK UPDATE画面を作る
+Update画面についてもNew Task画面と同様に作る。注意点としてはdidSelectedRowAtを引数にとるtableView関数内でperformSegueを呼んでTaskUpdate画面に遷移する。
+値を渡す場合はprepareで渡す。
+
+```swift
+// TableViewのindexPath番目が選択されたとき
+func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let task = SaveData.at(index: indexPath.item)
+    selectedId = task.id
+    performSegue(withIdentifier: "segueUpdateTask", sender: self)
+}
+// segueで画面遷移する時に呼ばれる。遷移先の画面に値を渡す
+override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if(segue.identifier == "segueUpdateTask"){
+        let vc = segue.destination as! UpdateTaskViewController
+        let task = SaveData.get(id: selectedId!)
+        vc.setTask(task:task)
+    }
+    
+}
+```
+
+## 削除機能を実装する
+TableViewの削除操作を検知するにはeditingStyleを引数に取るtableView関数に処理を書く。
+
+```swift
+// TableViewをスワイプした時に呼ばれる
+func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt
+indexPath: IndexPath) {
+    if editingStyle == .delete {
+        let task = SaveData.at(index: indexPath.item)
+        SaveData.remove(task: task)
+        tableView.reloadData()
+    }
+}
+```
+
+これでTableViewをスワイプすれば削除できる。

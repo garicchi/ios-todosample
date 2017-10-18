@@ -31,7 +31,6 @@
                                             <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="4ex-BD-U6Q">
                                                 <connections>
                                                     <action selector="onAddTask:" destination="BYZ-38-t0r" id="MFh-2W-oKB"/>
-                                                    <segue destination="CD5-cZ-l1C" kind="show" identifier="segueNewTask" id="7Rc-G8-ee3"/>
                                                 </connections>
                                             </barButtonItem>
                                         </navigationItem>
@@ -168,6 +167,8 @@
                     <navigationItem key="navigationItem" id="gRy-ks-swF"/>
                     <connections>
                         <outlet property="todoTableView" destination="m5M-78-dC5" id="tm0-uK-Jbd"/>
+                        <segue destination="GgB-VV-X1R" kind="show" identifier="segueUpdateTask" id="bGT-ut-N7f"/>
+                        <segue destination="CD5-cZ-l1C" kind="show" identifier="segueNewTask" id="ZYA-5w-AvW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -266,6 +267,99 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eJM-M9-lLn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1200.8" y="133.5832083958021"/>
+        </scene>
+        <!--Task Detail-->
+        <scene sceneID="eJh-a2-b89">
+            <objects>
+                <viewController id="GgB-VV-X1R" customClass="UpdateTaskViewController" customModule="ios_todosample" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Qop-FR-Fnt">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="FWh-QT-3yS">
+                                <rect key="frame" x="20" y="64" width="320" height="317"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dGi-AX-1xB">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="20.5"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="h3U-Yp-MN2"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="edt-Sv-Bfk">
+                                        <rect key="frame" x="0.0" y="20.5" width="320" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="6OS-FT-Vhz"/>
+                                        </constraints>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Detail" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ChS-WS-IdO">
+                                        <rect key="frame" x="0.0" y="40.5" width="320" height="20.5"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="Qag-3w-toz"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YP2-8R-zxI">
+                                        <rect key="frame" x="0.0" y="61" width="320" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="FcX-W3-Cq8"/>
+                                        </constraints>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Deadline" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VT9-yG-bQI">
+                                        <rect key="frame" x="0.0" y="81" width="320" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="y4y-BV-wHo"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="q0a-iN-Tim">
+                                        <rect key="frame" x="0.0" y="101" width="320" height="216"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="yH5-Ra-V1C"/>
+                                        </constraints>
+                                        <date key="date" timeIntervalSinceReferenceDate="530013903.59636497">
+                                            <!--2017-10-18 10:05:03 +0000-->
+                                        </date>
+                                    </datePicker>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="FWh-QT-3yS" firstAttribute="leading" secondItem="lmG-aW-0Ih" secondAttribute="leading" constant="20" id="1h8-xh-tXn"/>
+                            <constraint firstItem="FWh-QT-3yS" firstAttribute="top" secondItem="lmG-aW-0Ih" secondAttribute="top" id="JZ4-Co-xgf"/>
+                            <constraint firstItem="lmG-aW-0Ih" firstAttribute="bottom" secondItem="FWh-QT-3yS" secondAttribute="bottom" id="ewl-Tw-3YB"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="lmG-aW-0Ih"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Task Detail" id="gf4-ef-4QI">
+                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="save" id="NEh-7t-Z0E">
+                            <connections>
+                                <action selector="onSave:" destination="GgB-VV-X1R" id="eo6-CB-nsN"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="dateDeadline" destination="q0a-iN-Tim" id="0XG-D9-21b"/>
+                        <outlet property="textDetail" destination="YP2-8R-zxI" id="uNA-qp-Y5C"/>
+                        <outlet property="textTitle" destination="edt-Sv-Bfk" id="SJl-fG-yU7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fH3-QV-6mU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1201" y="858"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="yO9-If-Zyr">

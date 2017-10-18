@@ -23,16 +23,39 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
         return cell
     }
     
+    var selectedId:String? = nil
+    
     // TableViewのindexPath番目が選択されたとき
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let task = SaveData.at(index: indexPath.item)
+        selectedId = task.id
+        performSegue(withIdentifier: "segueUpdateTask", sender: self)
+    }
+    
+    // segueで画面遷移する時に呼ばれる。遷移先の画面に値を渡す
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if(segue.identifier == "segueUpdateTask"){
+            let vc = segue.destination as! UpdateTaskViewController
+            let task = SaveData.get(id: selectedId!)
+            vc.setTask(task:task)
+        }
         
+    }
+    
+    // TableViewをスワイプした時に呼ばれる
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let task = SaveData.at(index: indexPath.item)
+            SaveData.remove(task: task)
+            tableView.reloadData()
+        }
     }
     
 
     @IBOutlet weak var todoTableView: UITableView!
     
     @IBAction func onAddTask(_ sender: Any) {
-        
+        performSegue(withIdentifier: "segueNewTask", sender: sender)
     }
     
     override func viewDidLoad() {

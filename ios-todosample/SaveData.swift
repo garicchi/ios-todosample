@@ -60,6 +60,17 @@ class SaveData{
         return todo.tasks[counter]
     }
     
+    static func update(task:Task){
+        var counter:Int = 0
+        for e in todo.tasks {
+            if task.id == e.id {
+                break
+            }
+            counter += 1
+        }
+        todo.tasks[counter] = task
+    }
+    
     static func at(index:Int) -> Task{
         return todo.tasks[index]
     }
