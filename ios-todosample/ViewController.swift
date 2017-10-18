@@ -12,7 +12,7 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
     
     // TableViewに表示するデータの個数を返す
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
+        return SaveData.size()
     }
     
     // TableViewのindexPath番目に表示する内容を返す

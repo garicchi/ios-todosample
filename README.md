@@ -32,6 +32,10 @@ Table View Cellにlabelを配置してStackViewなどで調整する。
 
 ![2](./img/2.png)
 
+配置したTable View Cellを選択して右側のAttribute Inspectorから[Identifier]の項目に[TaskCell]という名前を入力する。この識別子は後でコードから参照するために設定する。
+
+![4](./img/4.png)
+
 右上のAssistan Editor(横2画面分割のやつ)を開いて右側にView Controller.swiftを表示する。
 TableViewをCtrlを押しながらView Controllerにドラッグ・アンド・ドロップしてIBOutletとして紐付ける。
 右上の[+]ボタンもCtrlを押しながらView Controllerにドラッグ・アンド・ドロップしてIBActionのfunctionを作成する。
@@ -178,3 +182,8 @@ struct Task:Codable{
 
 
 ```
+
+## TODO画面にデータを表示する
+
+
+ViewController.swiftを開く。
